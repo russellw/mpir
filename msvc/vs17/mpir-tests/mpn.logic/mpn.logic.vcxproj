@@ -164,7 +164,7 @@ check_config $(Platform) $(Configuration) 17</Command>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\tests\mpn\logic.c" />
+    <ClCompile Include="..\..\..\..\tests\mpn\t-logic.c" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\add-test-lib\add-test-lib.vcxproj">
