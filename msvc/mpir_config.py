@@ -128,11 +128,11 @@ def find_asm(path, cf_list):
   d = dict()
   for root, dirs, files in walk(path):
     if '.svn' in dirs:                  # ignore SVN directories
-      dirs.remove('.svn')
+      dirs.remove('.git')
     if 'fat' in dirs:                   # ignore fat directory
       dirs.remove('fat')
     relp = relpath(root, path)          # path from asm root
-    relr = relpath(root, mpir_root_dir)      # path from MPIR root
+    relr = relpath(root, mpir_root_dir) # path from MPIR root
     if relp == '.':                     # set C files as default
       relp = h = t = ''
       d[''] = [[], deepcopy(cf_list), [], [], relr]
