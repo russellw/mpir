@@ -12,6 +12,7 @@ vs_info = { 'solution':'12',
             'msvc_long':'15.0',
             'vcx_tool':'15.0.25914.0',
             'platform_toolset':'141',
-            'windows_sdk':'10.0.16299.0'      # Windows 10 Creators Update
+            'windows_sdk':'10.0.17134.0'      # Windows 10 version 1803
+            # 'windows_sdk':'10.0.16299.0'    # Windows 10 Creators Update
             # 'windows_sdk':'10.0.14393.795'  # Windows 10
           }
