@@ -6,16 +6,25 @@ rem %4 = configuration (Release|Debug)
 rem %5 = Windows SDK Version
 rem %6 = build tests (|+tests)
 
-set vsw_exe="%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe"
+rem Visual Studio version (2013, 2015 or 2017)
+set vs_version=2017
 
-rem This is the directory where Microsoft MSBUILD is installed 
-for /f "usebackq tokens=*" %%i in (`%vsw_exe% -latest -products * -requires Microsoft.Component.MSBuild -property installationPath`) do (
+rem find the MSBUILD installation directory
+if "%vs_version%" EQU "2013" (
+  set msbdir="C:\Program Files (x86)\MSBuild\12.0\Bin"
+  ) else if "%vs_version%" EQU "2015" (
+  set msbdir="C:\Program Files (x86)\MSBuild\14.0\Bin"
+  ) else if "%vs_version%" EQU "2017" (
+  set vsw_exe="%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe"
+  for /f "usebackq tokens=*" %%i in (`%vsw_exe% -latest -products * -requires Microsoft.Component.MSBuild -property installationPath`) do (
   set InstallDir=%%i
-)
-
-if exist "%InstallDir%\MSBuild\15.0\Bin\MSBuild.exe" (
-  set msbdir="%InstallDir%\MSBuild\15.0\Bin"
-)
+  )
+  if exist "%InstallDir%\MSBuild\15.0\Bin\MSBuild.exe" (
+    set msbdir="%InstallDir%\MSBuild\15.0\Bin"
+  )    
+  ) else (
+  echo "Visual Studio %vs_version% is not supported" & exit /b %errorlevel%
+  )
 
 if "%4" NEQ "" if "%3" NEQ "" if "%2" NEQ "" if "%1" NEQ "" goto cont
 call :get_architectures -
