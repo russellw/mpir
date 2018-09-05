@@ -18,7 +18,7 @@ if cw != '':
   os.chdir(cw)
 
 try:
-  fn = r'..\..\build.vc\output_params.bat'
+  fn = r'..\..\output_params.bat'
   f = open(fn)
   par = f.readlines()
   f.close()
