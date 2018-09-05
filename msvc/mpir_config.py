@@ -501,7 +501,7 @@ for n in n_list:
   gen_filter(vcx_path + '.filters', mpir_root_dir, hf_list, c_src_list + cc_src_list + mpn_f[1], af_list, 12.0)
   gen_vcxproj(vcx_path, mpir_root_dir, proj_name, guid, mp_dir, mode, Project_Type.DLL,
               False, hf_list, c_src_list + cc_src_list + mpn_f[1], af_list, add_prebuild, vs_info)
-  solc.add_project('', vcx_name, vcx_path, guid)
+  solc.add_project('', vcx_name, vcx_path, guid, mode)
 
   # set up LIB build
   proj_name = 'mpir'
@@ -511,7 +511,7 @@ for n in n_list:
   gen_filter(vcx_path + '.filters', mpir_root_dir, hf_list, c_src_list + mpn_f[1], af_list, 12.0)
   gen_vcxproj(vcx_path, mpir_root_dir, proj_name, guid, mp_dir, mode, Project_Type.LIB,
               False, hf_list, c_src_list + mpn_f[1], af_list, add_prebuild, vs_info)
-  solc.add_project('', vcx_name, vcx_path, guid)
+  solc.add_project('', vcx_name, vcx_path, guid, mode)
 
 # C++ library build
 
@@ -525,7 +525,7 @@ if add_cpp_lib:
   gen_filter(vcx_path + '.filters', mpir_root_dir, th, cc_src_list, '', 12.0)
   gen_vcxproj(vcx_path, mpir_root_dir, proj_name, guid, '', mode, Project_Type.LIB,
               True, th, cc_src_list, '', add_prebuild, vs_info)
-  solc.add_project('', vcx_name, vcx_path, guid)
+  solc.add_project('', vcx_name, vcx_path, guid, mode)
 
 solc.write_solution(vs_info)
 

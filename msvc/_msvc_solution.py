@@ -59,6 +59,8 @@ re_guid = compile(r'\s*\"\s*' + s_guid + r'\"\s*')
 re_proj = compile(r'Project\s*\(\s*\"' + s_guid + r'\"\)\s*=\s*'
                   + s_name + r'\s*,\s*' + s_name + r'\s*,\s*\"' + s_guid + r'\"')
 re_fmap = compile(r'\s*' + s_guid + r'\s*=\s*' + s_guid)
+acfg = r'(Debug|Release)\|(WIn32|x64)'
+re_acfg = compile(s_guid + r'\.' + acfg + r'\.ActiveCfg\s*=\s*' + acfg)
 
 class msvc_solution(object):
 
@@ -68,6 +70,7 @@ class msvc_solution(object):
     self.g2fldr = {}
     self.g2proj = OrderedDict()
     self.gf2gpl = defaultdict(list)
+    self.g2acfg = OrderedDict()
 
     if exists(path):
       lines = open(path).readlines()
@@ -87,6 +90,14 @@ class msvc_solution(object):
         if m:
           if m.group(1) in self.g2proj and m.group(2) in self.g2fldr:
             self.gf2gpl[m.group(2)].append(m.group(1))
+        m = re_acfg.search(ln)
+        if m:
+          g = m.group(1)
+          ix = 2 * (m.group(2) == 'Release') + (m.group(3) == 'x64')
+          ac = 2 * (m.group(4) == 'Release') + (m.group(5) == 'x64')
+          if not g in self.g2acfg.keys():
+            self.g2acfg[g] = [0] * 4
+          self.g2acfg[g][ix] = ac
 
     for g in self.g2proj:
       for _, gpl in self.gf2gpl.items():
@@ -124,11 +135,16 @@ class msvc_solution(object):
       outf.write(sol_4)
 
       outf.write(sol_5)
-      for g, (gg, f, n) in self.g2proj.items():
-        for conf in ('Release', 'Debug'):
-          for plat in ('Win32', 'x64'):
-            t = 'AnyCPU' if gg == pyproj_guid else plat
-            outf.write('		{0:s}.{1:s}|{2:s}.ActiveCfg = {1:s}|{3:s}\n'.format(g, conf, plat, t))
+      wx, dr = ['Win32', 'x64'], ['Debug', 'Release']
+      for g in self.g2proj.keys():
+        if g in self.g2acfg.keys():
+          ac4 = self.g2acfg.get(g, [0, 1, 2, 3])
+          for cf in (0, 1):
+            for pl in (0, 1):
+              ac = ac4[2 * cf + pl]
+              awx = 'AnyCPU' if gg == pyproj_guid else wx[ac & 1]
+              adr = dr[(ac > 1) & 1]
+              outf.write('		{0:s}.{1:s}|{2:s}.ActiveCfg = {3:s}|{4:s}\n'.format(g, dr[cf], wx[pl], adr, awx))
       outf.write(sol_8)
 
       del self.gf2gpl['']
@@ -153,7 +169,16 @@ class msvc_solution(object):
         p_guid = '{' + str(uuid4()).upper() + '}'
     return p_guid
 
-  def add_project(self, soln_folder, proj_name, file_path, p_guid):
+  def set_acfg(self, g, mode):
+    if g not in self.g2acfg.keys():
+      proj_name = self.g2proj[g][1]
+      if len(mode) == 2 or proj_name.endswith('gc') or proj_name.endswith('cxx'):
+        cfg = [0, 1, 2, 3]
+      else:
+        cfg = [0, 0, 2, 2] if mode[0] == 'Win32' else [1, 1, 3, 3]
+      self.g2acfg[g] = cfg
+
+  def add_project(self, soln_folder, proj_name, file_path, p_guid, mode):
     relp = relpath(file_path, self.soln_path)
     if soln_folder:
       for g, f in self.g2fldr.items():
@@ -170,3 +195,4 @@ class msvc_solution(object):
     else:
       self.g2proj[p_guid.upper()] = (vcxproj_guid, proj_name, relp)
       self.gf2gpl[f_guid if soln_folder else ''].append(p_guid.upper())
+      self.set_acfg(p_guid.upper(), mode)
