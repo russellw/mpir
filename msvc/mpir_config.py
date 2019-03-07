@@ -26,7 +26,7 @@ try:
 except NameError:
   pass
 
-vs_version = 17
+vs_version = 19
 if len(argv) > 1:
   vs_version = int(argv[1])
 
