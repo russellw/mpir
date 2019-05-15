@@ -22,28 +22,28 @@
     <RootNamespace>mpir</RootNamespace>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{2ACEC5D2-F039-4A7F-B9D6-0025BAFD667B}</ProjectGuid>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
@@ -73,7 +73,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <PreBuildEvent>
       <Command>cd ..\..\
-prebuild gc Win32 17
+prebuild gc Win32 19
       </Command>
     </PreBuildEvent>
     <ClCompile>
@@ -82,14 +82,14 @@ prebuild gc Win32 17
     </ClCompile>
     <PostBuildEvent>
       <Command>cd ..\..\
-postbuild "$(TargetPath)" 17
+postbuild "$(TargetPath)" 19
       </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <PreBuildEvent>
       <Command>cd ..\..\
-prebuild gc Win32 17
+prebuild gc Win32 19
       </Command>
     </PreBuildEvent>
     <ClCompile>
@@ -98,14 +98,14 @@ prebuild gc Win32 17
     </ClCompile>
     <PostBuildEvent>
       <Command>cd ..\..\
-postbuild "$(TargetPath)" 17
+postbuild "$(TargetPath)" 19
       </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <PreBuildEvent>
       <Command>cd ..\..\
-prebuild gc x64 17
+prebuild gc x64 19
       </Command>
     </PreBuildEvent>
     <ClCompile>
@@ -114,14 +114,14 @@ prebuild gc x64 17
     </ClCompile>
     <PostBuildEvent>
       <Command>cd ..\..\
-postbuild "$(TargetPath)" 17
+postbuild "$(TargetPath)" 19
       </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <PreBuildEvent>
       <Command>cd ..\..\
-prebuild gc x64 17
+prebuild gc x64 19
       </Command>
     </PreBuildEvent>
     <ClCompile>
@@ -130,7 +130,7 @@ prebuild gc x64 17
     </ClCompile>
     <PostBuildEvent>
       <Command>cd ..\..\
-postbuild "$(TargetPath)" 17
+postbuild "$(TargetPath)" 19
       </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -667,7 +667,7 @@ postbuild "$(TargetPath)" 17
   <ItemGroup>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ItemGroup>
+<ItemGroup>
     <None Include="..\..\..\gmp-h.in" />
-  </ItemGroup>
+    </ItemGroup>
 </Project>
