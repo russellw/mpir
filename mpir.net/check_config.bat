@@ -10,7 +10,7 @@ rem (set plat=x64)
 rem (set conf=Release) 
 
 call :clrerr
-if exist ..\..\msvc\output_params.bat (call ..\..\msvc\output_params.bat) else (call :seterr & echo ERROR: 'output_params.bat' not found & exit /b %errorlevel%)
+if exist ..\msvc\output_params.bat (call ..\msvc\output_params.bat) else (call :seterr & echo ERROR: 'output_params.bat' not found & exit /b %errorlevel%)
 if /i "%libr%" NEQ "lib" (call :seterr & echo ERROR: MPIR.Net requires a static library build of MPIR & exit /b %errorlevel%)
 
 if /i "%1" EQU "%plat%" if /i "%2" EQU "%conf%" (exit /b 0)

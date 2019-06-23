@@ -99,8 +99,8 @@
       <IgnoreSpecificDefaultLibraries>LIBCMTD;LIBCMT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
     <PreBuildEvent>
-      <Command>cd $(SolutionDir)..\build.vc
-check_config $(Platform) $(Configuration) 14</Command>
+      <Command>cd $(SolutionDir)..
+check_config $(Platform) $(Configuration) 15</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -117,8 +117,8 @@ check_config $(Platform) $(Configuration) 14</Command>
       <IgnoreSpecificDefaultLibraries>LIBCMTD;LIBCMT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
     <PreBuildEvent>
-      <Command>cd $(SolutionDir)..\build.vc
-check_config $(Platform) $(Configuration) 14</Command>
+      <Command>cd $(SolutionDir)..
+check_config $(Platform) $(Configuration) 15</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -134,8 +134,8 @@ check_config $(Platform) $(Configuration) 14</Command>
       <IgnoreSpecificDefaultLibraries>LIBCMTD;LIBCMT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
     <PreBuildEvent>
-      <Command>cd $(SolutionDir)..\build.vc
-check_config $(Platform) $(Configuration) 14</Command>
+      <Command>cd $(SolutionDir)..
+check_config $(Platform) $(Configuration) 15</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -151,8 +151,8 @@ check_config $(Platform) $(Configuration) 14</Command>
       <IgnoreSpecificDefaultLibraries>LIBCMTD;LIBCMT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
     <PreBuildEvent>
-      <Command>cd $(SolutionDir)..\build.vc
-check_config $(Platform) $(Configuration) 14</Command>
+      <Command>cd $(SolutionDir)..
+check_config $(Platform) $(Configuration) 15</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
