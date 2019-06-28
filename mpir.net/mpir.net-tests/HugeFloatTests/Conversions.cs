@@ -32,11 +32,16 @@ namespace MPIR.Tests.HugeFloatTests
         public static void Init(TestContext context)
         {
             AlmostOne = new HugeFloat(0.99999);
+        }
+
+        [TestInitialize]
+        public void TestInit()
+        {
             HugeFloat.DefaultPrecision = 128;
         }
 
-        [ClassCleanup]
-        public static void Cleanup()
+        [TestCleanup]
+        public void Cleanup()
         {
             HugeFloat.DefaultPrecision = 64;
         }

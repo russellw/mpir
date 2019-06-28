@@ -69,6 +69,9 @@ namespace MPIR.Tests.HugeFloatTests
         [TestMethod]
         public void FloatCompareToHugeIntExpression()
         {
+            var previousDefaultPrecision = HugeFloat.DefaultPrecision;
+            HugeFloat.DefaultPrecision = 256;
+
             using (var a = new HugeFloat("-222509832503450298345039835740293845721345345354"))
             using (var b = new HugeInt("222509832503450298345039835740293845721345345353"))
             {
@@ -82,6 +85,8 @@ namespace MPIR.Tests.HugeFloatTests
                 Assert.AreEqual(-1, Math.Sign((a + 1).CompareTo(1 - b)));
                 Assert.AreEqual(1, Math.Sign((a + 1).CompareTo(-b - 1)));
             }
+
+            HugeFloat.DefaultPrecision = previousDefaultPrecision;
         }
 
         [TestMethod]
