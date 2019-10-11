@@ -4,11 +4,10 @@ Set up Visual Sudio to build a specified MPIR configuration
 Copyright (C) 2011, 2012, 2013, 2014 Brian Gladman
 '''
 
-from __future__ import print_function
 from operator import itemgetter
-from os import scandir, walk, unlink, makedirs, sep
-from os.path import split, splitext, isdir, relpath, join, exists
-from os.path import join, abspath, dirname, normpath, split
+from os import scandir, walk, unlink, makedirs
+from os.path import join, split, splitext, isdir, exists
+from os.path import dirname, abspath, relpath, realpath 
 from copy import deepcopy
 from sys import argv, exit, path
 from filecmp import cmp
@@ -21,11 +20,6 @@ from _msvc_filters import gen_filter
 from _msvc_project import Project_Type, gen_vcxproj
 from _msvc_solution import msvc_solution
 
-try:
-  input = raw_input
-except NameError:
-  pass
-
 vs_version = 19
 if len(argv) > 1:
   vs_version = int(argv[1])
@@ -33,7 +27,7 @@ if len(argv) > 1:
 solution_name = 'mpir.sln'
 build_dir_name = 'vs{0:d}'.format(vs_version)
 
-build_root_dir = dirname(__file__)
+build_root_dir = dirname(realpath(__file__))
 mpir_root_dir, build_root_name  = split(build_root_dir)
 solution_dir = join(build_root_dir, build_dir_name)
 
