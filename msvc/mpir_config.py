@@ -5,9 +5,9 @@ Copyright (C) 2011, 2012, 2013, 2014 Brian Gladman
 '''
 
 from operator import itemgetter
-from os import scandir, walk, unlink, makedirs
-from os.path import join, split, splitext, isdir, exists
-from os.path import dirname, abspath, relpath, realpath 
+from os import listdir, walk, unlink, makedirs, sep
+from os.path import split, splitext, isdir, relpath, join, exists
+from os.path import join, abspath, dirname, normpath, split
 from copy import deepcopy
 from sys import argv, exit, path
 from filecmp import cmp
@@ -27,7 +27,7 @@ if len(argv) > 1:
 solution_name = 'mpir.sln'
 build_dir_name = 'vs{0:d}'.format(vs_version)
 
-build_root_dir = dirname(realpath(__file__))
+build_root_dir = dirname(__file__)
 mpir_root_dir, build_root_name  = split(build_root_dir)
 solution_dir = join(build_root_dir, build_dir_name)
 
@@ -179,7 +179,7 @@ def find_src(dir_list):
   di = {'.h': 0, '.c': 1, '.cc': 2, '.cpp': 2, '.asm': 3, '.as': 3}
   list = [[], [], [], []]
   for d in dir_list:
-    for f in scandir(join(mpir_root_dir, d)):
+    for f in listdir(join(mpir_root_dir, d)):
       if f == '.svn':
         continue                        # ignore SVN directories
       if not isdir(f):
