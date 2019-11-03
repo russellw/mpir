@@ -121,10 +121,10 @@ def copy_files(file_list, in_dir, out_dir):
 def find_asm(path, cf_list):
   d = dict()
   for root, dirs, files in walk(path):
-    if '.svn' in dirs:                  # ignore SVN directories
-      dirs.remove('.git')
-    if 'fat' in dirs:                   # ignore fat directory
-      dirs.remove('fat')
+    # ignore repository directories and the fat directory
+    for rd in ('.svn', '.git', '.vs', 'fat'):
+      if rd in dirs:
+        dirs.remove(rd)
     relp = relpath(root, path)          # path from asm root
     relr = relpath(root, mpir_root_dir) # path from MPIR root
     if relp == '.':                     # set C files as default
@@ -180,9 +180,9 @@ def find_src(dir_list):
   list = [[], [], [], []]
   for d in dir_list:
     for f in scandir(join(mpir_root_dir, d)):
-      if f == '.svn':
-        continue                        # ignore SVN directories
-      if not isdir(f):
+      if f.name in {'.svn', '.git', '.vs'}:
+        continue                        # ignore repository directories
+      if f.is_file():
         n, x = splitext(f.name)         # split into name + extension
         if x in di and not n in exclude_file_list:
           list[di[x]] += [(n, x, d)]    # if of the right type and is
