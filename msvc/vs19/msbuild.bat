@@ -34,7 +34,6 @@ goto :eof
 
 :cont
 rem example use: msbuild sandybridge_ivybridge dll x64 release
-
 if not exist "lib_mpir_%1" (call :get_architectures & call :seterr & echo ERROR: architecture is one of ^(%architectures%^) ^(not %1^) & exit /b %errorlevel%)
 if /i "%2" EQU "DLL" (set libp=dll) else (if /i "%2" EQU "LIB" (set libp=lib) else ((call :seterr & echo ERROR: library type is "lib" or "dll" ^(not "%2"^) & exit /b %errorlevel%)))
 if /i "%3" EQU "x64" (set plat=x64) else (if /i "%3" EQU "Win32" (set plat=win32) else (call :seterr & echo ERROR: platform is "Win32" or "x64" ^(not "%3"^) & exit /b %errorlevel%))
