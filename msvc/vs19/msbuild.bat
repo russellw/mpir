@@ -7,25 +7,28 @@ rem %5 = Windows SDK Version
 rem %6 = build tests (|+tests)
 
 rem Visual Studio version (2013, 2015, 2017 or 2019)
+@echo off
+setlocal enabledelayedexpansion
+
 set vs_version=2019
 
-rem find the MSBUILD installation directory
-if "%vs_version%" EQU "2013" (
-  set msbdir="C:\Program Files (x86)\MSBuild\12.0\Bin"
-  ) else if "%vs_version%" EQU "2015" (
-  set msbdir="C:\Program Files (x86)\MSBuild\14.0\Bin"
-  ) else if "%vs_version%" GEQ "2017" (
-  set vsw_exe="%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe"
-  for /f "usebackq tokens=*" %%i in (`%vsw_exe% -latest -products * -requires Microsoft.Component.MSBuild -property installationPath`) do (
-  set InstallDir=%%i
-  )
-  if "%vs_version%" EQU "2017" (set msbuild_subdir=15.0) else (set msbuild_subdir=Current) 
-  if exist "%InstallDir%\MSBuild\%msbuild_subdir%\Bin\MSBuild.exe" (
-    set msbdir="%InstallDir%\MSBuild\%msbuild_subdir%\Bin"
-  )    
-  ) else (
+set vsw_exe="%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe"
+
+for /f "usebackq tokens=*" %%i in (`%vsw_exe% -latest -products * -requires Microsoft.Component.MSBuild -property installationPath`) do (
+  set InstallDir="%%i"
+)
+
+if %vs_version% EQU "2017" (
+    set msbdir=%InstallDir%\MSBuild\15.0\Bin
+) else (
+    set msbdir=%InstallDir%\MSBuild\Current\Bin
+)
+set msbdir=%msbdir:"=%
+set msb_exe="%msbdir%\MSBuild.exe"
+
+if not exist %msb_exe% (
   echo "Visual Studio %vs_version% is not supported" & exit /b %errorlevel%
-  )
+)
 
 if "%4" NEQ "" if "%3" NEQ "" if "%2" NEQ "" if "%1" NEQ "" goto cont
 call :get_architectures -
@@ -46,17 +49,17 @@ set src=%libp%_mpir_%1
 rem This is the Visual Studio build directory (within the MPIR directory) 
 set srcdir=.
 
-echo %msbdir%\msbuild.exe /p:Platform=%plat% /p:Configuration=%conf% /p:"Windows%20SDK%20Version=%win_sdk%" %srcdir%\%src%\%src%.vcxproj
-%msbdir%\msbuild.exe /p:Platform=%plat% /p:Configuration=%conf% /p:"Windows%20SDK%20Version=%win_sdk%" %srcdir%\%src%\%src%.vcxproj
+echo %msb_exe% /p:Platform=%plat% /p:Configuration=%conf% /p:"Windows%20SDK%20Version=%win_sdk%" %srcdir%\%src%\%src%.vcxproj
+%msb_exe% /p:Platform=%plat% /p:Configuration=%conf% /p:"Windows%20SDK%20Version=%win_sdk%" %srcdir%\%src%\%src%.vcxproj
 
 if /i "%libp%" == "LIB" (
-  %msbdir%\msbuild.exe /p:Platform=%plat% /p:Configuration=%conf% /p:"Windows%20SDK%20Version=%win_sdk%" %srcdir%\lib_mpir_cxx\lib_mpir_cxx.vcxproj
+  %msb_exe% /p:Platform=%plat% /p:Configuration=%conf% /p:"Windows%20SDK%20Version=%win_sdk%" %srcdir%\lib_mpir_cxx\lib_mpir_cxx.vcxproj
 )
 
 if /i "%run_tests%" NEQ "" (
   for /d %%d in (.\mpir-tests\*) do (
     for %%f in (%%d\*.vcxproj) do (
-      %msbdir%\msbuild.exe /property:SolutionDir=..\..\ /property:OutDir=..\..\%plat%\%conf%\ /p:Platform=%plat% /p:Configuration=%conf% /p:"Windows%20SDK%20Version=%win_sdk%" %%f
+      %msb_exe% /property:SolutionDir=..\..\ /property:OutDir=..\..\%plat%\%conf%\ /p:Platform=%plat% /p:Configuration=%conf% /p:"Windows%20SDK%20Version=%win_sdk%" %%f
     )
   )
 )
