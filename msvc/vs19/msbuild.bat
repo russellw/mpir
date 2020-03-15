@@ -19,13 +19,12 @@ for /f "usebackq tokens=*" %%i in (`%vsw_exe% -latest -products * -requires Micr
 )
 
 if %vs_version% EQU "2017" (
-    set msbdir=%InstallDir%\MSBuild\15.0\Bin
+    set msb_dir=%InstallDir%\MSBuild\15.0\Bin
 ) else (
-    set msbdir=%InstallDir%\MSBuild\Current\Bin
+    set msb_dir=%InstallDir%\MSBuild\Current\Bin
 )
-set msbdir=%msbdir:"=%
-set msb_exe="%msbdir%\MSBuild.exe"
-
+set msb_dir=%msb_dir:"=%
+set msb_exe="%msb_dir%\MSBuild.exe"
 if not exist %msb_exe% (
   echo "Visual Studio %vs_version% is not supported" & exit /b %errorlevel%
 )
