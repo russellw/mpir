@@ -25,8 +25,8 @@ if %vs_version% EQU "2017" (
 )
 set msb_dir=%msb_dir:"=%
 set msb_exe="%msb_dir%\MSBuild.exe"
-if not exist %msb_exe% (
-  echo "Visual Studio %vs_version% is not supported (%msb_exe% not found)" & exit /b %errorlevel%
+if not exist !msb_exe! (
+  echo "Visual Studio %vs_version% is not supported (!msb_exe! not found)" & exit /b %errorlevel%
 )
 
 if "%4" NEQ "" if "%3" NEQ "" if "%2" NEQ "" if "%1" NEQ "" goto cont
@@ -48,17 +48,17 @@ set src=%libp%_mpir_%1
 rem This is the Visual Studio build directory (within the MPIR directory) 
 set srcdir=.
 
-echo %msb_exe% /p:Platform=%plat% /p:Configuration=%conf% /p:"Windows%20SDK%20Version=%win_sdk%" %srcdir%\%src%\%src%.vcxproj
-%msb_exe% /p:Platform=%plat% /p:Configuration=%conf% /p:"Windows%20SDK%20Version=%win_sdk%" %srcdir%\%src%\%src%.vcxproj
+echo !msb_exe! /p:Platform=%plat% /p:Configuration=%conf% /p:"Windows%20SDK%20Version=%win_sdk%" %srcdir%\%src%\%src%.vcxproj
+!msb_exe! /p:Platform=%plat% /p:Configuration=%conf% /p:"Windows%20SDK%20Version=%win_sdk%" %srcdir%\%src%\%src%.vcxproj
 
 if /i "%libp%" == "LIB" (
-  %msb_exe% /p:Platform=%plat% /p:Configuration=%conf% /p:"Windows%20SDK%20Version=%win_sdk%" %srcdir%\lib_mpir_cxx\lib_mpir_cxx.vcxproj
+  !msb_exe! /p:Platform=%plat% /p:Configuration=%conf% /p:"Windows%20SDK%20Version=%win_sdk%" %srcdir%\lib_mpir_cxx\lib_mpir_cxx.vcxproj
 )
 
 if /i "%run_tests%" NEQ "" (
   for /d %%d in (.\mpir-tests\*) do (
     for %%f in (%%d\*.vcxproj) do (
-      %msb_exe% /property:SolutionDir=..\..\ /property:OutDir=..\..\%plat%\%conf%\ /p:Platform=%plat% /p:Configuration=%conf% /p:"Windows%20SDK%20Version=%win_sdk%" %%f
+      !msb_exe! /property:SolutionDir=..\..\ /property:OutDir=..\..\%plat%\%conf%\ /p:Platform=%plat% /p:Configuration=%conf% /p:"Windows%20SDK%20Version=%win_sdk%" %%f
     )
   )
 )
