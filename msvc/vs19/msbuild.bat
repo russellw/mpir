@@ -6,22 +6,22 @@ rem %4 = configuration (Release|Debug)
 rem %5 = Windows SDK Version
 rem %6 = build tests (|+tests)
 
-rem Visual Studio version (2013, 2015, 2017 or 2019)
 @echo off
-setlocal enabledelayedexpansion
+setlocal ENABLEDELAYEDEXPANSION
 
+rem Visual Studio version (2017 or 2019)
 set vs_version=2019
 
 set vsw_exe="%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe"
 
-for /f "usebackq tokens=*" %%i in (`%vsw_exe% -latest -products * -requires Microsoft.Component.MSBuild -property installationPath`) do (
-  set InstallDir="%%i"
+for /f "usebackq tokens=*" %%i in (`!vsw_exe! -latest -products * -requires Microsoft.Component.MSBuild -property installationPath`) do (
+  set InstallDir=%%i
 )
 
 if %vs_version% EQU "2017" (
-    set msb_dir=%InstallDir%\MSBuild\15.0\Bin
+    set msb_dir=!InstallDir!\MSBuild\15.0\Bin
 ) else (
-    set msb_dir=%InstallDir%\MSBuild\Current\Bin
+    set msb_dir=!InstallDir!\MSBuild\Current\Bin
 )
 set msb_dir=%msb_dir:"=%
 set msb_exe="%msb_dir%\MSBuild.exe"
@@ -41,7 +41,7 @@ if /i "%2" EQU "DLL" (set libp=dll) else (if /i "%2" EQU "LIB" (set libp=lib) el
 if /i "%3" EQU "x64" (set plat=x64) else (if /i "%3" EQU "Win32" (set plat=win32) else (call :seterr & echo ERROR: platform is "Win32" or "x64" ^(not "%3"^) & exit /b %errorlevel%))
 if /i "%4" EQU "Debug" (set conf=Debug) else (if /i "%4" EQU "Release" (set conf=Release) else (call :seterr & echo ERROR: configuration is "Release" or "Debug" ^(not "%4"^) & exit /b %errorlevel%))
 if /i "%5" NEQ "" if "%5" EQU "+tests" (set run_tests=y) else (set win_sdk=%5)
-if /i "%6" NEQ "" if "%6" EQU "+tests" (set run_tests=y) 
+if /i "%6" NEQ "" if "%6" EQU "+tests" (set run_tests=y)
 
 set src=%libp%_mpir_%1
 
