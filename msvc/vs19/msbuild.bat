@@ -26,7 +26,7 @@ if %vs_version% EQU "2017" (
 set msb_dir=%msb_dir:"=%
 set msb_exe="%msb_dir%\MSBuild.exe"
 if not exist %msb_exe% (
-  echo "Visual Studio %vs_version% is not supported" & exit /b %errorlevel%
+  echo "Visual Studio %vs_version% is not supported (%msb_exe% not found)" & exit /b %errorlevel%
 )
 
 if "%4" NEQ "" if "%3" NEQ "" if "%2" NEQ "" if "%1" NEQ "" goto cont
