@@ -17,4 +17,4 @@ build_script:
 
 test_script:
   - if [%COMPILER%]==[MSVC19] cd msvc\vs19\mpir-tests
-  - if [%COMPILER%]==[MSVC19] "python %cd%\run-tests.py 0"
+  - if [%COMPILER%]==[MSVC19] python %cd%\run-tests.py 0
