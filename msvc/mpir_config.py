@@ -5,7 +5,7 @@ Copyright (C) 2011, 2012, 2013, 2014 Brian Gladman
 '''
 
 from operator import itemgetter
-from os import scandir, walk, unlink, makedirs
+from os import scandir, walk, unlink, makedirs, mkdir
 from os.path import join, split, splitext, isdir, exists
 from os.path import dirname, abspath, relpath, realpath
 from copy import deepcopy
@@ -14,11 +14,27 @@ from filecmp import cmp
 from shutil import copy
 from re import compile, search
 from collections import defaultdict
+from uuid import uuid4
 from time import sleep
 
 from _msvc_filters import gen_filter
 from _msvc_project import Project_Type, gen_vcxproj
 from _msvc_solution import msvc_solution
+
+# copy from file ipath to file opath but avoid copying if
+# opath exists and is the same as ipath (this is to avoid
+# triggering an unecessary rebuild).
+
+def write_f(ipath, opath):
+  if exists(ipath) and not isdir(ipath):
+    if exists(opath) and isfile(opath) and cmp(ipath, opath):
+      return
+    dp , f = split(opath)
+    try:
+      mkdir(dp)
+    except FileExistsError:
+      pass
+    copy(ipath, opath)
 
 vs_version = 19
 if len(argv) > 1:
@@ -30,8 +46,10 @@ build_dir_name = 'vs{0:d}'.format(vs_version)
 build_root_dir = dirname(realpath(__file__))
 mpir_root_dir, build_root_name  = split(build_root_dir)
 solution_dir = join(build_root_dir, build_dir_name)
-
 path.append(solution_dir)
+
+write_f(join(build_root_dir, f'version_info{vs_version}.py'),
+                            join(solution_dir, 'version_info.py'))
 from version_info import vs_info
 
 if len(argv) > 2:
