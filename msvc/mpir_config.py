@@ -6,7 +6,7 @@ Copyright (C) 2011, 2012, 2013, 2014 Brian Gladman
 
 from operator import itemgetter
 from os import scandir, walk, unlink, makedirs, mkdir
-from os.path import join, split, splitext, isdir, exists
+from os.path import join, split, splitext, isdir, isfile, exists
 from os.path import dirname, abspath, relpath, realpath
 from copy import deepcopy
 from sys import argv, exit, path
