@@ -29,7 +29,7 @@ def write_f(ipath, opath):
   if exists(ipath) and not isdir(ipath):
     if exists(opath) and isfile(opath) and cmp(ipath, opath):
       return
-    dp , f = split(opath)
+    dp, f = split(opath)
     try:
       mkdir(dp)
     except FileExistsError:
@@ -74,17 +74,6 @@ exclude_file_list = ('config.guess', 'cfg', 'getopt', 'getrusage',
                      'gettimeofday', 'cpuid', 'obsolete', 'win_timing',
                      'gmp-mparam', 'tal-debug', 'tal-notreent', 'new_fft',
                      'new_fft_with_flint', 'compat', 'udiv_w_sdiv')
-
-# copy from file ipath to file opath but avoid copying if
-# opath exists and is the same as ipath (this is to avoid
-# triggering an unecessary rebuild).
-
-def write_f(ipath, opath):
-  if exists(ipath) and not isdir(ipath):
-    if exists(opath):
-      if isdir(opath) or cmp(ipath, opath):
-        return
-    copy(ipath, opath)
 
 # append a file (ipath) to an existing file (opath)
 
