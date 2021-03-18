@@ -1,12 +1,3 @@
-@echo off
-rem %1 = architecture
-rem %2 = library type (LIB|DLL)
-rem %3 = platform (Win32|x64)
-rem %4 = configuration (Release|Debug)
-rem %5 = Windows SDK Version
-rem %6 = build tests (|+tests)
-
-@echo off
 setlocal ENABLEDELAYEDEXPANSION
 
 rem Visual Studio version (2017 or 2019)
@@ -29,12 +20,6 @@ if not exist !msb_exe! (
   echo "Visual Studio %vs_version% is not supported (!msb_exe! not found)" & exit /b %errorlevel%
 )
 
-if "%4" NEQ "" if "%3" NEQ "" if "%2" NEQ "" if "%1" NEQ "" goto cont
-call :get_architectures -
-echo usage: msbuild architecture=^<%architectures:|=^|%^> library_type=^<LIB^|DLL^> platform=^<Win32^|x64^> configuration=^<Release^|Debug^> [Windows_SDK_Version=^<n^>] [+tests]
-goto :eof
-
-:cont
 rem example use: msbuild sandybridge_ivybridge dll x64 release
 if not exist "lib_mpir_%1" (call :get_architectures & call :seterr & echo ERROR: architecture is one of ^(%architectures%^) ^(not %1^) & exit /b %errorlevel%)
 if /i "%2" EQU "DLL" (set libp=dll) else (if /i "%2" EQU "LIB" (set libp=lib) else ((call :seterr & echo ERROR: library type is "lib" or "dll" ^(not "%2"^) & exit /b %errorlevel%)))
@@ -45,7 +30,7 @@ if /i "%6" NEQ "" if "%6" EQU "+tests" (set run_tests=y)
 
 set src=%libp%_mpir_%1
 
-rem This is the Visual Studio build directory (within the MPIR directory) 
+rem This is the Visual Studio build directory (within the MPIR directory)
 set srcdir=.
 
 echo !msb_exe! /p:Platform=%plat% /p:Configuration=%conf% /p:"Windows%20SDK%20Version=%win_sdk%" %srcdir%\%src%\%src%.vcxproj
@@ -62,29 +47,6 @@ if /i "%run_tests%" NEQ "" (
     )
   )
 )
-
-:get_architectures
-set architectures=
-for /d %%a in (lib_mpir_*) do (call :add_architecture %%a %1)
-goto :eof
-
-:add_architecture
-set xx=%1
-set arch=%xx:~9%
-if /i "%arch%" EQU "cxx" goto :eof
-if _%2_ == __ (
-   set "delim= "
-   set arch=%arch%
-) else (
-   set delim=^|
-)
-
-if "%architectures%" == "" (
-   set "architectures=%arch%"
-) else (
-   set "architectures=%architectures%%delim%%arch%"
-)
-goto :eof
 
 :set_arch
 set arch=%1
