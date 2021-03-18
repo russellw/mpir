@@ -398,7 +398,6 @@ pip-log.txt
 *.a
 *.la
 .libs
-mpn/*.c
 mpn/*.as
 mpn/*.asm
 Makefile
