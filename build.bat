@@ -16,11 +16,15 @@ md obj\mpn
 cl /Foobj\mpn\ /I. /MP4 /MTd /WX /c mpn\*.c
 if errorlevel 1 goto :eof
 
+md obj\mpq
+cl /Foobj\mpq\ /I. /MP4 /MTd /WX /c mpq\*.c
+if errorlevel 1 goto :eof
+
 md obj\mpz
 cl /Foobj\mpz\ /I. /MP4 /MTd /WX /c mpz\*.c
 if errorlevel 1 goto :eof
 
-lib /out:mpir_debug.lib obj\*.obj obj\fft\*.obj obj\mpn\*.obj obj\mpz\*.obj
+lib /out:mpir_debug.lib obj\*.obj obj\fft\*.obj obj\mpn\*.obj obj\mpq\*.obj obj\mpz\*.obj
 if errorlevel 1 goto :eof
 
 cl /I. /MP4 /MTd /WX smoke_test.cc mpir_debug.lib
