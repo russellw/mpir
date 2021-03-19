@@ -3,7 +3,7 @@ if "%VCINSTALLDIR%"=="" call "C:\Program Files (x86)\Microsoft Visual Studio\201
 
 rem debug version
 
-rd /s obj
+rd /s /q obj
 md obj
 cl /Foobj\ /I. /MP4 /MTd /WX /c *.c
 if errorlevel 1 goto :eof
@@ -59,7 +59,7 @@ rem release version
 
 rem done
 
-rd /s obj
+rd /s /q obj
 del *.obj
 del *.exe
 
