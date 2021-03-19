@@ -40,7 +40,7 @@ check_onebit (void)
 
   mpf_init2(f,1024L);
   for(sign=-1;sign<=1;sign+=2){
-  
+
   for (i = 0; i < numberof (data); i++)
     {
       mpf_set_ui (f, 1L);if(sign==-1)mpf_neg(f,f);
@@ -74,7 +74,7 @@ check_round (void)
   static const unsigned long data[] = { 1, 32, 53, 54, 64, 128, 256, 512 };
   mpf_t   f;
   double  got;
-  mpir_si got_exp;
+  long got_exp;
   int     i, rnd_mode, old_rnd_mode;
 
   mpf_init2 (f, 1024L);

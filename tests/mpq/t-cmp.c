@@ -26,6 +26,8 @@ MA 02110-1301, USA. */
 #include "gmp-impl.h"
 #include "tests.h"
 
+#undef NUM
+#undef DEN
 #define NUM(x) (&((x)->_mp_num))
 #define DEN(x) (&((x)->_mp_den))
 
@@ -79,10 +81,10 @@ main (int argc, char **argv)
   int i;
   int cc, ccref;
   gmp_randstate_t rands;
-  
+
   tests_start ();
   gmp_randinit_default(rands);
-  
+
   if (argc == 2)
      reps = atoi (argv[1]);
 

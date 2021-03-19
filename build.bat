@@ -1,3 +1,4 @@
+@echo off
 if "%VCINSTALLDIR%"=="" call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvars64.bat"
 
 del /s *.obj
@@ -45,4 +46,15 @@ if errorlevel 1 goto :eof
 smoke_test
 if errorlevel 1 goto :eof
 
-python test.py
+for /r %%x in (t-*.c) do (
+	rem disable warning about printf %l specifier for 64-bit integers
+	rem code is full of these, which were valid on UNIX
+	rem while not valid on Windows, hopefully they will do no harm
+	cl /Fea /I. /Itests /MTd /WX /wd4477 %%x tests/memory.c tests/misc.c tests/ref*.c tests/trace.c mpir_debug.lib
+	if errorlevel 1 goto :eof
+	a
+	if errorlevel 1 goto :eof
+)
+
+del /s *.obj
+del /s *.exe
