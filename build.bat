@@ -23,7 +23,7 @@ if errorlevel 1 goto :eof
 lib /out:mpir_debug.lib obj\*.obj obj\fft\*.obj obj\mpn\*.obj obj\mpz\*.obj
 if errorlevel 1 goto :eof
 
-cl /I. /MP4 /MTd /WX smoke_test.c mpir_debug.lib
+cl /I. /MP4 /MTd /WX smoke_test.cc mpir_debug.lib
 if errorlevel 1 goto :eof
 
 smoke_test

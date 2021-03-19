@@ -3,12 +3,12 @@
 
 #include <gmp.h>
 
-void err(void){
+void err(){
 	puts("*** ERROR ***");
 	exit(1);
 }
 
-void test_int(void){
+void test_int(){
 	mpz_t x,y,z,r;
   mpz_init_set_str(x,"1000000000000000000000000000000",10);
   mpz_init_set_str(y,"2000000000000000000000000000000",10);
