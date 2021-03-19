@@ -1,5 +1,6 @@
 *.dll
 *.lib
+*.exe
 *.props
 msvc/output_params.bat
 
