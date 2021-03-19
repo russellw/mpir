@@ -19,6 +19,8 @@ Download the code and run `build.bat`, preferably in a command window that alrea
 
 Building the library takes on the order of tens of seconds. The batch file will then run the tests, which takes much longer; if you don't want to wait, just stop the process with ctrl-C.
 
+The batch file takes no parameters, but is designed to be straightforward abstraction-free code that just spells everything out in the obvious way. If you want to change compiler flags or anything else about the build process, the recommend way to do it is to simply edit `build.bat`.
+
 To compile a program that uses MPIR, include the header file just as you would on UNIX:
 
 ```

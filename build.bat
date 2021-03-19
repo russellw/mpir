@@ -1,7 +1,7 @@
 @echo off
 if "%VCINSTALLDIR%"=="" call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvars64.bat"
 
-rem debug version
+rem debug build
 
 rd /s /q obj
 md obj
@@ -55,7 +55,7 @@ for /r %%x in (t-*.c) do (
 	if errorlevel 1 goto :eof
 )
 
-rem release version
+rem release build
 
 rem done
 
