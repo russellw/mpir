@@ -5,7 +5,7 @@ rem debug build
 
 rd /s /q obj
 md obj
-cl /Foobj\ /I. /MP4 /MTd /WX /c *.c
+cl /DDEBUG /Foobj\ /I. /MP4 /MTd /WX /c *.c
 if errorlevel 1 goto :eof
 
 md obj\fft
